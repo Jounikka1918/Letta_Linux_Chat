@@ -14,6 +14,7 @@ A simple GUI application for chatting with Letta AI using Tkinter.
 - Python 3.6+
 - tkinter (usually comes with Python)
 - requests library
+- https://github.com/letta-ai/letta runnin locally inside docker container
 
 ## Installation
 

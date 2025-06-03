@@ -1,10 +1,13 @@
+import json
 import tkinter as tk
 from tkinter import scrolledtext
+
 import requests
-import json
 
 # Määritä agentin ID ja API:n URL
-AGENT_ID = "agent-78856c01-4e81-4b42-a180-dbbf0ceb58da"  # Korvaa omalla agentin ID:lläsi
+AGENT_ID = (
+    "agent-78856c01-4e81-4b42-a180-dbbf0ceb58da"  # Korvaa omalla agentin ID:lläsi
+)
 API_URL = f"http://localhost:8283/v1/agents/{AGENT_ID}/messages"
 
 # Jos käytössä on salasanasuojaus, määritä Authorization-otsake
@@ -12,6 +15,7 @@ HEADERS = {
     "Content-Type": "application/json",
     # "Authorization": "Bearer YOUR_PASSWORD"  # Poista kommentti ja korvaa omalla salasanallasi, jos tarvitaan
 }
+
 
 class LettaGUI:
     def __init__(self, root):
@@ -26,7 +30,9 @@ class LettaGUI:
         power_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
         # Keskustelualue
-        self.chat_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, state='disabled', height=20)
+        self.chat_area = scrolledtext.ScrolledText(
+            root, wrap=tk.WORD, state="disabled", height=20
+        )
         self.chat_area.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
         # Syötekenttä ja Lähetä-painike
@@ -48,14 +54,7 @@ class LettaGUI:
         self.display_message("Sinä", user_message)
         self.entry_field.delete(0, tk.END)
 
-        payload = {
-            "messages": [
-                {
-                    "role": "user",
-                    "content": user_message
-                }
-            ]
-        }
+        payload = {"messages": [{"role": "user", "content": user_message}]}
 
         try:
             response = requests.post(API_URL, headers=HEADERS, json=payload)
@@ -78,13 +77,13 @@ class LettaGUI:
             self.display_message("Virhe", f"HTTP-pyyntö epäonnistui: {e}")
 
     def display_message(self, sender, message):
-        self.chat_area.configure(state='normal')
+        self.chat_area.configure(state="normal")
         self.chat_area.insert(tk.END, f"{sender}: {message}\n")
-        self.chat_area.configure(state='disabled')
+        self.chat_area.configure(state="disabled")
         self.chat_area.see(tk.END)
+
 
 if __name__ == "__main__":
     root = tk.Tk()
     gui = LettaGUI(root)
     root.mainloop()
-
